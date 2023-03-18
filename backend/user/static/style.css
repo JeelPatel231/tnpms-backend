@@ -1,0 +1,18 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.left-pane { 
+  border-right: 1px solid var(--md-sys-color-outline);
+}
+
+@media only screen and (max-width : 700px){
+  .grid-container {
+    grid-template-columns: 0px 1fr;
+  }
+  .left-pane{
+    border-right: none;
+  }
+}
+

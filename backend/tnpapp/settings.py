@@ -36,6 +36,8 @@ ALLOWED_HOSTS = [] if ENV_ALLOWED_HOSTS is None else ENV_ALLOWED_HOSTS.split(
 ALLOWED_HOSTS += []
 
 
+LOGIN_REDIRECT_URL = "login-redirect" # django named url 
+LOGOUT_REDIRECT_URL = "login-redirect" 
 # Application definition
 
 INSTALLED_APPS = [

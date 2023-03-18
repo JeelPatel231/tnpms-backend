@@ -1,0 +1,36 @@
+{% extends 'dualpane_layout.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block head_add %}
+<link rel="stylesheet" href="{% static 'login.css' %}">
+{% endblock %}
+ 
+{% block content %}
+<div class="form-wrapper flex flex-col h-100 justify-center">
+<div class="display-small">Log In</div>
+<form class="login-form flex flex-col" method="post">
+  {% csrf_token %}
+  {% for error in form.non_field_errors %}
+    <div class="error on-error-text">{{ error }}</div>
+  {% endfor %}
+  {% for field in form %}
+
+<div class="component-wrapper">
+  {{ field }}
+  <label for="{{ field.id_for_label }}" class="label body-large">{{ field.label }}</label>
+  {% if field.help_text %}
+  <div class="support-text body-small on-surface-variant-text">
+    {{field.help_text|safe}}
+  </div>
+  {% endif %}
+  <div class="support-text error-text body-small">{{ field.errors }}</div>
+</div>
+  {% endfor %}
+
+  <button type="submit" class="primary on-primary-text body-large submit-btn">Log In</button>
+</form>
+</div>
+{% endblock %}
+
+

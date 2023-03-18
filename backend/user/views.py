@@ -17,7 +17,7 @@ from user.permissions import IsOwnerOrReadOnly, Registerable
 from user.utils import link_callback
 from tnpapp.models import BaseCrudModelViewSet
 from django.views.decorators.csrf import csrf_exempt
-from user.forms import StudentRegistrationForm
+from user.forms import StudentRegistrationForm, VolunteerRegistrationForm
 
 # Create your views here.
 
@@ -45,9 +45,21 @@ class StudentRegistrationView(View):
         post_form = StudentRegistrationForm(request.POST)
         if post_form.is_valid():
             post_form.save(commit=True)
-            # TODO : change this redirect
-            return redirect("/admin")
+            return redirect("login")
         return render(request, "studentregistration.html", {"form": post_form})
+
+
+class VolunteerRegistrationView(View):
+    def get(self, request):
+        form = VolunteerRegistrationForm()
+        return render(request, "volunteerregistration.html", {"form": form})
+
+    def post(self, request):
+        post_form = VolunteerRegistrationForm(request.POST)
+        if post_form.is_valid():
+            post_form.save(commit=True)
+            return redirect("login")
+        return render(request, "volunteerregistration.html", {"form": post_form})
 
 
 @swagger_auto_schema(methods=["post"], request_body=s.UserLoginSerializer)
