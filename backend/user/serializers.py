@@ -20,6 +20,17 @@ class StudentSerializer(BaseUserModelSerializer):
         }
 
 
+class InitialStudentRegistration(StudentSerializer):
+    class Meta:
+        model = m.Student
+        fields = (
+            "username",
+            "password1",
+            "password2",
+            "enrollment_number",
+        )
+
+
 class DeptOfficerSerializer(BaseUserModelSerializer):
     class Meta(BaseUserModelSerializer.Meta):
         model = m.DeptOfficer
@@ -33,6 +44,18 @@ class VolunteerSerializer(BaseUserModelSerializer):
             "semester": {"required": False},
             "volunteer_type": {"required": False},
         }
+
+
+class InitialVolunteerRegistration(VolunteerSerializer):
+    class Meta:
+        model = m.Volunteer
+        fields = (
+            "username",
+            "password1",
+            "password2",
+            "enrollment_number",
+            "volunteer_type",
+        )
 
 
 class UserLoginSerializer(serializers.Serializer):

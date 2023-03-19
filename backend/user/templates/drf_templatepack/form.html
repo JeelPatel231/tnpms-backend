@@ -1,0 +1,7 @@
+<!-- DEFAULT DRF -->
+{% load rest_framework %}
+{% for field in form %}
+  {% if not field.read_only %}
+    {% render_field field style=style %}
+  {% endif %}
+{% endfor %}

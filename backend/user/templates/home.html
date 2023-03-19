@@ -1,18 +1,17 @@
 {% extends 'base.html' %}
 
 {% load static %}
-{% block title %}Home{% endblock %}
+{% block title %}Student Profile{% endblock %}
 
 {% block head_add %}
   <link rel="stylesheet" href="{% static 'home.css' %}">
 {% endblock %}
 
 {% block main %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <p><a href="{% url 'logout' %}">Log Out</a></p>
+{% if user.role != 3 %}
+  You must login with a Student account to access this page.
 {% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">Log In</a>
+Hi {{ user.username }}!
+  <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% endif %}
 {% endblock %}

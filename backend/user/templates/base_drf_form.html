@@ -1,0 +1,10 @@
+{% load rest_framework %}
+
+<div class="form-wrapper flex flex-col h-100 justify-center">
+  <form class="login-form flex flex-col" method="post">
+    <div class="display-small">{{ form_title }}</div>
+    {% csrf_token %}
+    {% render_form serializer template_pack="drf_templatepack" %}
+    <button type="submit" class="primary on-primary-text body-large submit-btn">Sign Up</button>
+  </form>
+</div>

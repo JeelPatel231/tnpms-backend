@@ -1,0 +1,40 @@
+<div class="component-wrapper">
+  <input 
+    name="{{ field.name }}" 
+    {% if style.input_type != "file" %}
+      class="form-control"
+    {% endif %} 
+    type="{{ style.input_type }}"
+    {% comment %}
+    {% if style.placeholder %}
+      placeholder="{{ style.placeholder }}"
+    {% endif %} 
+    {% endcomment %}
+    {% if field.value is not None %}
+      value="{{ field.value }}"
+    {% endif %}
+    {% if style.autofocus and style.input_type != "hidden" %}
+      autofocus
+    {% endif %}
+    required
+  />
+  <label for="{{ field.id_for_label }}" class="label body-large">
+    {% if style.placeholder is not None %}
+      {{ style.placeholder }}
+    {% else %}
+      {{ field.label }}
+    {% endif %}
+  </label>
+  {% if field.help_text %}
+  <div class="support-text body-small on-surface-variant-text">
+    {{field.help_text|safe}}
+  </div>
+  {% endif %}
+ 
+  {% if field.errors %}
+    {% for error in field.errors %}
+      <div class="support-text error-text body-small">{{ error }}</div>
+    {% endfor %}
+  {% endif %}
+
+</div>

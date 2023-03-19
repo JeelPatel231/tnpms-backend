@@ -17,7 +17,8 @@ from user.permissions import IsOwnerOrReadOnly, Registerable
 from user.utils import link_callback
 from tnpapp.models import BaseCrudModelViewSet
 from django.views.decorators.csrf import csrf_exempt
-from user.forms import StudentRegistrationForm, VolunteerRegistrationForm
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.views import APIView
 
 # Create your views here.
 
@@ -36,30 +37,36 @@ class VolunteerCrudView(BaseCrudModelViewSet):
     permission_classes = [IsOwnerOrReadOnly | Registerable | FineGrainedPermissions]
 
 
-class StudentRegistrationView(View):
+class StudentRegistrationDRF(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "studentregistration.html"
+
     def get(self, request):
-        form = StudentRegistrationForm()
-        return render(request, "studentregistration.html", {"form": form})
+        serializer = s.InitialStudentRegistration()
+        return Response({"serializer": serializer})
 
     def post(self, request):
-        post_form = StudentRegistrationForm(request.POST)
-        if post_form.is_valid():
-            post_form.save(commit=True)
-            return redirect("login")
-        return render(request, "studentregistration.html", {"form": post_form})
+        serializer = s.InitialStudentRegistration(data=request.data)
+        if not serializer.is_valid():
+            return Response({"serializer": serializer})
+        serializer.save()
+        return redirect("login")
 
 
-class VolunteerRegistrationView(View):
+class VolunteerRegistrationDRF(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "volunteerregistration.html"
+
     def get(self, request):
-        form = VolunteerRegistrationForm()
-        return render(request, "volunteerregistration.html", {"form": form})
+        serializer = s.InitialVolunteerRegistration()
+        return Response({"serializer": serializer})
 
     def post(self, request):
-        post_form = VolunteerRegistrationForm(request.POST)
-        if post_form.is_valid():
-            post_form.save(commit=True)
-            return redirect("login")
-        return render(request, "volunteerregistration.html", {"form": post_form})
+        serializer = s.InitialVolunteerRegistration(data=request.data)
+        if not serializer.is_valid():
+            return Response({"serializer": serializer})
+        serializer.save()
+        return redirect("login")
 
 
 @swagger_auto_schema(methods=["post"], request_body=s.UserLoginSerializer)

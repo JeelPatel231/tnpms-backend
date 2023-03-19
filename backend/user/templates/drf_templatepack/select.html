@@ -1,0 +1,50 @@
+<!-- DEFAULT DRF -->
+{% load rest_framework %}
+
+{% comment %}
+<div class="form-group {% if field.errors %}has-error{% endif %}">
+  {% if field.label %}
+    <label {% if style.hide_label %}class="sr-only"{% endif %}>
+      {{ field.label }}
+    </label>
+  {% endif %}
+
+
+  {% if field.errors %}
+    {% for error in field.errors %}
+      <span class="help-block">{{ error }}</span>
+    {% endfor %}
+  {% endif %}
+
+  {% if field.help_text %}
+    <span class="help-block">{{ field.help_text|safe }}</span>
+  {% endif %}
+</div>
+{% endcomment %}
+
+
+<div class="component-wrapper"> 
+  <select class="form-control" name="{{ field.name }}">
+    {% if field.allow_null or field.allow_blank %}
+      <option value="" {% if not field.value %}selected{% endif %}>--------</option>
+    {% endif %}
+    {% for select in field.iter_options %}
+      {% if select.start_option_group %}
+        <optgroup label="{{ select.label }}">
+      {% elif select.end_option_group %}
+        </optgroup>
+      {% else %}
+        <option value="{{ select.value }}" {% if select.value|as_string == field.value|as_string %}selected{% endif %} {% if select.disabled %}disabled{% endif %}>{{ select.display_text }}</option>
+      {% endif %}
+    {% endfor %}
+  </select> 
+  <label for="{{ field.id_for_label }}" class="label body-large">{{ field.label }}</label>
+  {% if field.help_text %}
+    <div class="support-text body-small on-surface-variant-text">
+      {{field.help_text|safe}}
+    </div>
+  {% endif %}
+  {% if field.errors is not None %}
+    <div class="support-text error-text body-small">{{ field.errors }}</div>
+  {% endif %}
+</div>
