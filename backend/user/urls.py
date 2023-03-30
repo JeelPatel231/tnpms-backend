@@ -25,6 +25,15 @@ urlpatterns = [
     path(
         "", login_required(TemplateView.as_view(template_name="home.html")), name="home"
     ),
-    path("register/student/", v.StudentRegistrationDRF.as_view(), name="regstuddrf"),
-    path("register/volunteer/", v.VolunteerRegistrationDRF.as_view(), name="regvoldrf"),
+    path("register/", TemplateView.as_view(template_name="registrationchoice.html")),
+    path(
+        "register/student/",
+        v.StudentRegistrationDRF.as_view(),
+        name="registration-student",
+    ),
+    path(
+        "register/volunteer/",
+        v.VolunteerRegistrationDRF.as_view(),
+        name="registration-volunteer",
+    ),
 ]

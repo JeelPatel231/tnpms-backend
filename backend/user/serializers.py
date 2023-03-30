@@ -24,10 +24,9 @@ class InitialStudentRegistration(StudentSerializer):
     class Meta:
         model = m.Student
         fields = (
-            "username",
+            "enrollment_number",
             "password1",
             "password2",
-            "enrollment_number",
         )
 
 
@@ -50,14 +49,15 @@ class InitialVolunteerRegistration(VolunteerSerializer):
     class Meta:
         model = m.Volunteer
         fields = (
-            "username",
+            "enrollment_number",
             "password1",
             "password2",
-            "enrollment_number",
             "volunteer_type",
         )
 
 
+# this class is only used in DRF API
+# TODO : check if OG django login view accepts json requests
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField(allow_blank=False)
     password = serializers.CharField(allow_blank=False)

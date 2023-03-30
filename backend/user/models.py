@@ -73,6 +73,7 @@ class Student(CustomUser):
         self.role = UserRoles.Student
         if not self.pk:
             enr = self.enrollment_number
+            self.username = f"S-{enr}"
             if not self.department:
                 self.department = int(enr[7:9])
             if not self.batch_year:
@@ -101,14 +102,16 @@ class Volunteer(CustomUser):
     volunteer_type = models.PositiveSmallIntegerField(
         choices=VolunteerType.choices, default=VolunteerType.WORKER
     )
-    reference = models.TextField(max_length=2000, null=True)
+    reference = models.TextField(max_length=2000, blank=True, null=True)
 
     _predefined_permissions = ["view_volunteer"]
 
     def save(self, *args, **kwargs) -> None:
         self.role = UserRoles.Volunteer
         if not self.pk:
+            self.is_staff = True
             enr = self.enrollment_number
+            self.username = f"V-{enr}"
             if not self.department:
                 self.department = int(enr[7:9])
             if not self.semester:
@@ -129,6 +132,8 @@ class DeptOfficer(CustomUser):
 
     def save(self, *args, **kwargs) -> None:
         self.role = UserRoles.DepartmentOfficer
+        self.is_staff = True
+        self.username = self.email
         return super().save(*args, **kwargs)
 
     class Meta:

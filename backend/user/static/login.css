@@ -59,6 +59,13 @@ button{
     cursor: pointer;
 }
 
+.m3-button{
+    height: 2.5rem;
+    border: none;
+    border-radius: 1.25rem;
+    cursor: pointer;
+}
+
 .submit-btn{
   margin-top: 1rem;
 }

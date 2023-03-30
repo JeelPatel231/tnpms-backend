@@ -1,0 +1,27 @@
+{% extends 'dualpane_layout.html' %}
+{% load static %}
+{% block title %}Student Registration{% endblock %}
+
+{% block head_add %}
+<link rel="stylesheet" href="{% static 'login.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-wrapper flex flex-col h-100 justify-center">
+  <div class="login-form flex flex-col">
+    <div class="display-small">Registration</div>
+    <a href={% url 'registration-student' %}>
+      <div
+        class="m3-button primary on-primary-text body-large flex items-center justify-center submit-btn items-center">
+        Student
+      </div>
+    </a>
+    <a href={% url 'registration-volunteer' %}>
+      <div
+        class="m3-button primary on-primary-text body-large flex items-center justify-center submit-btn items-center">
+        Volunteer
+      </div>
+    </a>
+  </div>
+</div>
+{% endblock %}
