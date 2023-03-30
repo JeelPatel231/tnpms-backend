@@ -61,35 +61,3 @@ class VolunteerRegistrationDRF(APIView):
             return Response({"serializer": serializer})
         serializer.save()
         return redirect("login")
-
-
-@api_view(["GET"])
-def generate_resume(req: Request, username: str):
-    """
-    TODO : move to a new table, with all the details of student to generate resume and generate
-    ONCE and store it somewhere (static files), RE-GENERATE when any of the fields are changed,
-    all we do is serve static resume pdfs.
-    """
-    user = m.Student.objects.filter(username=username).first()
-    if user is None:
-        return Response("User not Found", status=404)
-
-    # dummy resume html template
-    t = Template("<center><h1>{{ message }}</h1></center>.")
-
-    # dummy context to render, dict is supposed to be
-    # student details
-    c = Context({"message": "Resume"})
-
-    html = t.render(c)
-    response = HttpResponse(content_type="application/pdf")
-    response[
-        "Content-Disposition"
-    ] = f'attachment; filename="{user.username}_resume.pdf"'
-    pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
-
-    # if errors while generateing pdf, return error
-    if pisa_status.err:
-        return Response(f"We had some errors <pre>{html}</pre>", status=500)
-
-    return response
