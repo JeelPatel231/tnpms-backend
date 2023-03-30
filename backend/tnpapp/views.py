@@ -34,6 +34,8 @@ class UserLoginForm(AuthenticationForm):
     username = UsernameField(widget=forms.TextInput())
     password = forms.CharField(widget=forms.PasswordInput())
 
+    field_order = ("role", "username", "password")
+
     def clean(self) -> dict[str, Any]:
         username = self.cleaned_data.get("username")
         password = self.cleaned_data.get("password")
