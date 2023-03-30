@@ -7,11 +7,16 @@
   <link rel="stylesheet" href="{% static 'home.css' %}">
 {% endblock %}
 
+{# THIS PAGE IS ONLY ACCESSIBLE BY STUDENT ACCOUNTS #}
+
 {% block main %}
-{% if user.role != 3 %}
-  You must login with a Student account to access this page.
-{% else %}
-Hi {{ user.username }}!
-  <p><a href="{% url 'logout' %}">Log Out</a></p>
-{% endif %}
+  <div class="grid-container">
+    <div class="navigation">
+      sidebar
+    </div>
+    <div class="content">
+      Hi {{ user.username }}!
+      <p><a href="{% url 'logout' %}">Log Out</a></p>
+    </div>
+  </div>
 {% endblock %}

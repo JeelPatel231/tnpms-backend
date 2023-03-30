@@ -1,4 +1,6 @@
-from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from django.http.request import HttpRequest
+from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -10,11 +12,18 @@ from xhtml2pdf import pisa  # type: ignore
 from django.http import HttpResponse
 from user.permissions import IsOwnerOrReadOnly, Registerable
 from user.utils import link_callback
-from tnpapp.models import BaseCrudModelViewSet
+from tnpapp.models import BaseCrudModelViewSet, UserRoles
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.views import APIView
 
 # Create your views here.
+
+
+@login_required
+def home_view(req: HttpRequest):
+    if req.user.role == UserRoles.Student:
+        return render(req, "home.html")
+    return redirect("login-redirect")
 
 
 class StudentCrudView(BaseCrudModelViewSet):
