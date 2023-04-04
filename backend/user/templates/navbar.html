@@ -1,0 +1,39 @@
+<nav class="surface on-surface-variant-text">
+  <div class="fab-wrapper">
+    <a href="{% url 'home' %}" class="material-symbols-rounded on-surface-variant-text primary-fab primary-container">add</a>
+  </div>
+
+  {# use for loop, fix the urls that buttons map to #}
+  {# and fix currPath, it doesnt match anything #}
+  <ul>
+    {% with request.path|cut:'/' as currPath %}
+      {% with nameurl='home' label='home' icon='home' %}
+      <li>
+      <a class="flex flex-col" href={% url nameurl %}>
+        <span
+          class="material-symbols-rounded nav-icon {% if currPath == route %} active secondary-container on-secondary-container-text {% endif %}">
+          {{icon}}
+        </span>
+        <span class="icon-label body-small on-surface-variant-text {% if currPath == route %} on-surface-text {% endif %}">
+          {{label}}
+        </span>
+      </a>
+      </li>
+      {% endwith %}
+      {% with nameurl='home' label='resume' icon='description' %}
+      <li>
+      <a class="flex flex-col" href={% url nameurl %}>
+        <span
+          class="material-symbols-rounded nav-icon {% if currPath == route %} active secondary-container on-secondary-container-text {% endif %}">
+          {{icon}}
+        </span>
+        <span class="icon-label body-small on-surface-variant-text {% if currPath == route %} on-surface-text {% endif %}">
+          {{label}}
+        </span>
+      </a>
+      </li>
+      {% endwith %}
+
+    {% endwith %}
+  </ul>
+</nav>

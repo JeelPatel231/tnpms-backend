@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Student Profile{% endblock %}
+
+{% block head_add %}
+  <link rel="stylesheet" href="{% static 'home.css' %}">
+  <link rel="stylesheet" href="{% static 'navbar.css' %}">
+{% endblock %}
+
+{# THIS PAGE IS ONLY ACCESSIBLE BY STUDENT ACCOUNTS #}
+
+{% block main %}
+  <div class="main-content-grid-container">
+    {% include 'navbar.html' %}
+    <div class="grid-content">
+      {% block content %} {% endblock %}
+    </div>
+  </div>
+{% endblock %}
