@@ -16,7 +16,9 @@
     {% if style.autofocus and style.input_type != "hidden" %}
       autofocus
     {% endif %}
-    required
+    {% if 0 and field.required %}
+      required
+    {% endif %}
   />
   <label for="{{ field.id_for_label }}" class="label body-large">
     {% if style.placeholder is not None %}
