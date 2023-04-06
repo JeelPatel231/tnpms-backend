@@ -1,29 +1,34 @@
-from django.contrib.auth.decorators import login_required
-from django.http.request import HttpRequest
-from django.shortcuts import redirect, render
-from rest_framework.decorators import api_view
-from rest_framework.request import Request
+from django.shortcuts import redirect
 from rest_framework.response import Response
 from tnpapp.permissions import FineGrainedPermissions
 from user import serializers as s
 from user import models as m
-from django.template import Context, Template
-from xhtml2pdf import pisa  # type: ignore
-from django.http import HttpResponse
+from django.http import QueryDict
 from user.permissions import IsOwnerOrReadOnly, Registerable
-from user.utils import link_callback
 from tnpapp.models import BaseCrudModelViewSet, UserRoles
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.views import APIView
-
 # Create your views here.
 
+class HomeView(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "student/home.html"
+    
+    def get(self, request):
+        if request.user.role != UserRoles.Student:
+            return redirect("login-redirect")
+        user = m.Student.objects.get(pk=request.user.id)
+        serializer = s.StudentSerializer(user)
+        return Response({"serializer": serializer})
 
-@login_required
-def home_view(req: HttpRequest):
-    if req.user.role == UserRoles.Student:
-        return render(req, "home.html")
-    return redirect("login-redirect")
+    def post(self, request):
+        # clean the form data
+        data = { x:y for x,y in request.data.items() if y != '' }
+        serializer = s.StudentSerializer(instance=request.user,data=data, partial=True)
+        if not serializer.is_valid():
+            return Response({"serializer": serializer})
+        serializer.save()
+        return self.get(request)
 
 
 class StudentCrudView(BaseCrudModelViewSet):
