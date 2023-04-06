@@ -12,4 +12,5 @@
     grid-area: content;
     height: 100%;
     overflow-y: scroll;
+    padding: 24px;
 }
