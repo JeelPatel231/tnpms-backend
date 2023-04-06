@@ -9,6 +9,7 @@ class StudentSerializer(BaseUserModelSerializer):
         model = m.Student
         extra_kwargs = {
             "is_selected": {"read_only": True},
+            "username": {"read_only": True},
             # TODO :  FIELD LEVEL PERMISSIONS, is_blocked should
             # only be editable by authorised people
             "is_blocked": {"read_only": True},
@@ -24,7 +25,10 @@ class InitialStudentRegistration(StudentSerializer):
     class Meta:
         model = m.Student
         fields = (
+            "first_name",
+            "last_name",
             "enrollment_number",
+            # "email",
             "password1",
             "password2",
         )
