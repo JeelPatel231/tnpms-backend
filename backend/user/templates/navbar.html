@@ -33,7 +33,19 @@
       </a>
       </li>
       {% endwith %}
-
+      {% with nameurl='logout' label='Log Out' icon='logout' %}
+      <li>
+      <a class="flex flex-col" href={% url nameurl %}>
+        <span
+          class="material-symbols-rounded nav-icon {% if currPath == route %} active secondary-container on-secondary-container-text {% endif %}">
+          {{icon}}
+        </span>
+        <span class="icon-label body-small on-surface-variant-text {% if currPath == route %} on-surface-text {% endif %}">
+          {{label}}
+        </span>
+      </a>
+      </li>
+      {% endwith %}
     {% endwith %}
   </ul>
 </nav>
