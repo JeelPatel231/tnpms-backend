@@ -38,6 +38,7 @@ class StudentOpening(models.Model):
     second_round = models.BooleanField(default=False)
     third_round = models.BooleanField(default=False)
     selected = models.BooleanField(default=False)
+    accepted = models.BooleanField(default=False)
 
     def sequential_validation(self, arr: List[Tuple[str, bool]]) -> Optional[int]:
         false_occured = False
@@ -60,6 +61,7 @@ class StudentOpening(models.Model):
             ("second_round", self.second_round),
             ("third_round", self.third_round),
             ("selected", self.selected),
+            ("accepted", self.accepted),
         ]
         key = self.sequential_validation(sequence)
         if key is not None:
