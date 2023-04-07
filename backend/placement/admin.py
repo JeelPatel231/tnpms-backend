@@ -6,7 +6,19 @@ from placement import models as m
 
 @admin.register(m.StudentOpening)
 class StudentOpeningManager(admin.ModelAdmin):
-    pass
+    list_display = (
+        "student",
+        "opening",
+        "applied",
+        "selected",
+        "accepted",
+    )
+    list_filter = (
+        "applied",
+        "selected",
+        "accepted",
+    )
+
 
 
 @admin.register(m.OnCampusPlacedDetail)
