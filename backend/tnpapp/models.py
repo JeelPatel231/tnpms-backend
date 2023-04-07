@@ -1,3 +1,4 @@
+from enum import unique
 from typing import Any
 from django.db import models
 from rest_framework.viewsets import ModelViewSet
@@ -32,7 +33,7 @@ class CustomUserManager(UserManager):
 
 class CustomUser(AbstractUser):
     _predefined_permissions: List[str] = []
-
+    email = models.EmailField(unique=True)
     phone_number = models.CharField(
         max_length=10,
         validators=[partial(number_validator, length=10)],
