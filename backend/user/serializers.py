@@ -32,6 +32,10 @@ class InitialStudentRegistration(StudentSerializer):
             "password1",
             "password2",
         )
+        extra_kwargs = {
+            "first_name": {"required": True, "allow_blank" : False},
+            "last_name": {"required": True, "allow_blank" : False},
+        }
 
 
 class DeptOfficerSerializer(BaseUserModelSerializer):
