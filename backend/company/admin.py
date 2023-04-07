@@ -18,6 +18,8 @@ class CompanyAdmin(ModelAdmin):
         "company_type",
     )
 
+class OpeningForDepartmentInline(admin.TabularInline):
+    model = m.OpeningForDepartment
 
 @admin.register(m.CurrentOpening)
 class CurrentOpeningsAdmin(ModelAdmin):
@@ -25,6 +27,7 @@ class CurrentOpeningsAdmin(ModelAdmin):
     @admin.action(description="Notify students")
     def notify_students_opening(self, request, queryset):
         interested_students = Student.objects.filter(is_blocked=False)
+        # also filter through their departments
         student_emails = [s.email for s in interested_students]
         # make multiple message bodies from queryset and use send_mass_mail
         all_emails = []
@@ -35,7 +38,7 @@ class CurrentOpeningsAdmin(ModelAdmin):
         # send_mass_mail(all_emails, fail_silently=False)
 
     actions = ("notify_students_opening",)
-
+    inlines = (OpeningForDepartmentInline,)
     list_display = (
         "job_title",
         "company",

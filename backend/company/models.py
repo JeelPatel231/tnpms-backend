@@ -1,5 +1,6 @@
 from django.db import models
 from company.roles import CompanyType, Gender
+from user.roles import Department
 from user.validators import number_validator
 from functools import partial
 
@@ -54,3 +55,15 @@ class CurrentOpening(models.Model):
 
     def __str__(self) -> str:
         return self.job_title
+
+
+class OpeningForDepartment(models.Model):
+    opening_id = models.ForeignKey(CurrentOpening, on_delete=models.CASCADE)
+    dept_id = models.PositiveSmallIntegerField(choices=Department.choices, null=False, blank=False)
+
+    def __str__(self) -> str:
+        return f"{self.opening_id} for {self.dept_id}"
+    
+    class Meta:
+        unique_together = ('opening_id', 'dept_id',)
+
