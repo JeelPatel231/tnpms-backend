@@ -95,6 +95,10 @@ a {
   margin-bottom: 32px;
 }
 
+.underline {
+  text-decoration: underline;
+}
+
 .material-button{
   height: 2.5rem;
   border: none;
