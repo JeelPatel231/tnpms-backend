@@ -32,7 +32,7 @@ class CustomUserManager(UserManager):
 
 class CustomUser(AbstractUser):
     _predefined_permissions: List[str] = []
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, blank=False, null=False)
     phone_number = models.CharField(
         max_length=10,
         validators=[partial(number_validator, length=10)],

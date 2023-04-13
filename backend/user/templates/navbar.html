@@ -2,50 +2,19 @@
   <div class="fab-wrapper">
     <a href="{% url 'student-apply-openings' %}" class="material-symbols-rounded on-surface-variant-text primary-fab primary-container">add</a>
   </div>
-
-  {# use for loop, fix the urls that buttons map to #}
-  {# and fix currPath, it doesnt match anything #}
   <ul>
-    {% with request.path|cut:'/' as currPath %}
-      {% with nameurl='home' label='Home' icon='home' %}
+    {% for item in navbar_routes %}
       <li>
-      <a class="flex flex-col" href={% url nameurl %}>
+      <a class="flex flex-col" href={% url item.named_url %}>
         <span
-          class="material-symbols-rounded nav-icon {% if currPath == route %} active secondary-container on-secondary-container-text {% endif %}">
-          {{icon}}
+          class="material-symbols-rounded nav-icon {% if activetab == item.named_url %} active secondary-container on-secondary-container-text {% endif %}">
+          {{item.icon}}
         </span>
-        <span class="icon-label body-small on-surface-variant-text {% if currPath == route %} on-surface-text {% endif %}">
-          {{label}}
+        <span class="icon-label body-small on-surface-variant-text {% if activetab == item.named_url %} on-surface-text {% endif %}">
+          {{item.label}}
         </span>
       </a>
       </li>
-      {% endwith %}
-      {% with nameurl='student-resume' label='Resume' icon='description' %}
-      <li>
-      <a class="flex flex-col" href={% url nameurl %}>
-        <span
-          class="material-symbols-rounded nav-icon {% if currPath == route %} active secondary-container on-secondary-container-text {% endif %}">
-          {{icon}}
-        </span>
-        <span class="icon-label body-small on-surface-variant-text {% if currPath == route %} on-surface-text {% endif %}">
-          {{label}}
-        </span>
-      </a>
-      </li>
-      {% endwith %}
-      {% with nameurl='logout' label='Log Out' icon='logout' %}
-      <li>
-      <a class="flex flex-col" href={% url nameurl %}>
-        <span
-          class="material-symbols-rounded nav-icon {% if currPath == route %} active secondary-container on-secondary-container-text {% endif %}">
-          {{icon}}
-        </span>
-        <span class="icon-label body-small on-surface-variant-text {% if currPath == route %} on-surface-text {% endif %}">
-          {{label}}
-        </span>
-      </a>
-      </li>
-      {% endwith %}
-    {% endwith %}
+    {% endfor %}
   </ul>
 </nav>

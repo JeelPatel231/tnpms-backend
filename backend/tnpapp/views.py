@@ -11,7 +11,7 @@ from typing import Any
 def login_redirect(request):
     # if user if student, send them to profile page
     if request.user.role == UserRoles.Student:
-        return redirect("home")
+        return redirect("student-dashboard")
     # else send them to admin panel
     return redirect("/admin")
 

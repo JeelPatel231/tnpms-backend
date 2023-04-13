@@ -25,7 +25,8 @@ from django.contrib.auth.views import LoginView
 urlpatterns = [
     path("", login_redirect, name="login-redirect"),
     path("admin/", admin.site.urls),
-    path("users/", include("user.urls")),
+    path("", include("user.urls")),
+    # path("users/", include("user.urls")),
     # path('job/', include(company_router.urls)),
     # path('placement/', include(placement_router.urls)),
     # path('openapi/', include('openapi.urls')),

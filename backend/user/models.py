@@ -93,7 +93,7 @@ class Volunteer(CustomUser):
     # why was this needed in the first place?
     # job_numbers = models.PositiveSmallIntegerField()
     enrollment_number = models.CharField(
-        max_length=12, validators=[partial(number_validator, length=12)]
+        max_length=12, validators=[partial(number_validator, length=12)], unique=True
     )
     department = models.PositiveSmallIntegerField(choices=Department.choices)
     semester = models.PositiveSmallIntegerField(
