@@ -46,6 +46,7 @@ def provide_global_context(request: HttpRequest):
 
 
 class ProfileView(APIView):
+    swagger_schema = None
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "student/profile.html"
 
@@ -81,6 +82,7 @@ class VolunteerCrudView(BaseCrudModelViewSet):
 
 
 class StudentRegistrationDRF(APIView):
+    swagger_schema = None
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "studentregistration.html"
 
@@ -97,6 +99,7 @@ class StudentRegistrationDRF(APIView):
 
 
 class VolunteerRegistrationDRF(APIView):
+    swagger_schema = None
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "volunteerregistration.html"
 

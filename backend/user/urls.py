@@ -22,7 +22,6 @@ router.register(r"volunteer", v.VolunteerCrudView, basename="volunteer")
 # ]
 
 urlpatterns = [
-    # path("test/", include(router.urls)),
     path(
         "register/",
         TemplateView.as_view(template_name="registrationchoice.html"),

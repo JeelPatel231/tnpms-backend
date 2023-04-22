@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from company.urls import router as company_router
 from placement.urls import router as placement_router
+from user.urls import router as user_router
 from tnpapp.views import login_redirect, UserLoginForm
 from django.contrib.auth.views import LoginView
 
@@ -29,8 +30,15 @@ urlpatterns = [
     # path("users/", include("user.urls")),
     # path('job/', include(company_router.urls)),
     # path('placement/', include(placement_router.urls)),
-    # path('openapi/', include('openapi.urls')),
     # override login route with our defined login route
     path("accounts/login/", LoginView.as_view(authentication_form=UserLoginForm)),
     path("accounts/", include("django.contrib.auth.urls")),
+]
+
+# API Routes
+urlpatterns += [
+    path("api/v1/company/", include(company_router.urls)),
+    path("api/v1/placement/", include(placement_router.urls)),
+    path("api/v1/user/", include(user_router.urls)),
+    path("openapi/", include("openapi.urls")),
 ]
