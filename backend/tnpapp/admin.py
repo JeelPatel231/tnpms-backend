@@ -1,6 +1,7 @@
 from django.contrib import admin
 from typing import Tuple, Any, Iterable
 from copy import deepcopy
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 import csv
 from django.contrib.auth.admin import UserAdmin as UserAdmin_
@@ -52,10 +53,20 @@ class CustomUserAdmin(UserAdmin_):
 
 # https://docs.djangoproject.com/en/4.1/ref/contrib/admin/actions/#actions-that-provide-intermediate-pages
 # https://docs.djangoproject.com/en/4.1/howto/outputting-csv/
-# TODO : add custom permission for exports
 def export_as_csv(modeladmin, request, queryset) -> HttpResponse:
+    # only superuser has access to exportin data.
+    # this is to prevent any volunteer or unauthorised
+    # entity from exporting/stealing data
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
+    # do not hash password field
+    excluded_fields = ("password",)
+
     meta = modeladmin.model._meta
-    field_names = [field.name for field in meta.fields]
+    field_names = [
+        field.name for field in meta.fields if field.name not in excluded_fields
+    ]
 
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = "attachment; filename={}.csv".format(meta)
