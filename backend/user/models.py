@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser, UserManager
 from user.roles import Department, VolunteerType
 from tnpapp.models import CustomUser, UserRoles
 import datetime
+from typing import Tuple
 from user.validators import number_validator
 from functools import partial
 
@@ -37,13 +38,19 @@ class Admin(CustomUser):
         return super().save(*args, **kwargs)
 
 
-# TODO :  add d2d
-def calculate_semester(year: int) -> int:
+def calculate_semester(enrollment_number: str) -> Tuple[int, int]:
     today = datetime.datetime.now()
+
+    current_year = today.year // 100 * 100
+    year = current_year + int(enrollment_number[:2])
+    last_3_digits = int(enrollment_number[-3:])
     sem = (today.year - year) * 2
+
     if today.month > 5:
         sem += 1
-    return sem
+    if last_3_digits > 500:
+        sem += 2
+    return (year, sem)
 
 
 class Student(CustomUser):
@@ -73,15 +80,18 @@ class Student(CustomUser):
         self.role = UserRoles.Student
         if not self.pk:
             enr = self.enrollment_number
+            batch_year, semester = calculate_semester(enr)
+
             self.username = f"S-{enr}"
+
             if not self.department:
                 self.department = int(enr[7:9])
             if not self.batch_year:
-                self.batch_year = 2000 + int(enr[0:2])
+                self.batch_year = batch_year
             if not self.institute:
                 self.institute = enr[2:5]
             if not self.semester:
-                self.semester = calculate_semester(self.batch_year)
+                self.semester = semester
         return super().save(*args, **kwargs)
 
     class Meta:
