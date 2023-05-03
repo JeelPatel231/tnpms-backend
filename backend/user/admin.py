@@ -24,6 +24,7 @@ class StudentAdmin(CustomUserAdmin):
         "semester",
         "batch_year",
         "is_blocked",
+        "is_selected",
     )
 
     new_add_fields = ("email",)
